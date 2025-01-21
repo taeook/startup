@@ -31,33 +31,19 @@ sequenceDiagram
   actor User2 as User 2
   actor ReviewHub
 
-  User1->>ReviewHub: Browse categories
-  ReviewHub-->>User1: Display list of reviews
-  User1->>ReviewHub: View a specific review
-  ReviewHub-->>User1: Display review details and comments
-
   User1->>ReviewHub: Submit a review
   ReviewHub-->>User1: Confirm review submission
 
   User2->>ReviewHub: View User 1's review
-  ReviewHub-->>User2: Display review details and comments
-  User2->>ReviewHub: Submit a comment on User 1's review
+  ReviewHub-->>User2: Display review details
+
+  User2->>ReviewHub: Comment on review
   ReviewHub-->>User2: Confirm comment submission
   ReviewHub-->>User1: Notify about new comment
 
-  User2->>ReviewHub: Like User 1's review
-  ReviewHub-->>User2: Update like count
+  User2->>ReviewHub: Like review
+  ReviewHub-->>User2: Confirm like
   ReviewHub-->>User1: Notify about new like
-
-  User1->>ReviewHub: Follow User 2
-  ReviewHub-->>User1: Confirm follow action
-  ReviewHub-->>User2: Notify about new follower
-
-  User1->>ReviewHub: Update profile information
-  ReviewHub-->>User1: Confirm profile update
-
-  User1->>ReviewHub: Log out
-  ReviewHub-->>User1: Confirm logout
 ```
 
 ### Key features
