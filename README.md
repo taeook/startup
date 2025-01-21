@@ -50,7 +50,7 @@ sequenceDiagram
 
 - **Comprehensive Review System**: Users can write and read reviews on a wide range of products and entertainment options.
 - **User Authentication**: Secure login and registration system to ensure user privacy and data protection.
-- **Real-time Updates**: Users receive real-time notifications on new reviews and comments through WebSocket integration.
+- **Real-time Updates**: Users receive real-time notifications on new reviews and comments through WebSocket integration. Additionally, leverage third-party APIs to fetch and display up-to-date information about movies and video games, ensuring users have access to the latest details and trends
 - **User Profiles and Interaction**: Users can create profiles, follow other reviewers, and engage with the community through comments and likes on reviews.
 
 ### Technologies
