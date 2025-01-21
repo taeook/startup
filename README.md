@@ -21,7 +21,7 @@ ReviewHub is your go-to platform for honest and comprehensive reviews on a wide 
 
 ### Design
 
-![Design image](RewviewHubDesign.png)
+![Design image](ReviewHubDesign.png)
 
 The design of ReviewHub focuses on user-friendliness and accessibility, ensuring that users can easily navigate through categories, read reviews, and contribute their own insights.
 
