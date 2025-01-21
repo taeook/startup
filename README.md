@@ -1,15 +1,6 @@
-# Your startup name here
+# ReviewHub
 
-[My Notes](notes.md)
-
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-
-> [!NOTE]
->  This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
-
-> [!NOTE]
->  If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
+Welcome to ReviewHub, the ultimate platform for sharing and discovering reviews on everything from video games and movies to shoes and gadgets. Our mission is to create a community-driven space where users can express their opinions, find trustworthy reviews, and make informed decisions on their next purchase or entertainment choice.
 
 ## 🚀 Specification Deliverable
 
@@ -18,45 +9,49 @@ A brief description of the application here. Lorem ipsum dolor sit amet, consect
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+ReviewHub is your go-to platform for honest and comprehensive reviews on a wide range of products and entertainment. Whether you're looking for the latest insights on video games, movies, or the best shoes in the market, ReviewHub provides a community-driven space where users can share their experiences and help others make informed decisions.
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](RewviewHubDesign.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The design of ReviewHub focuses on user-friendliness and accessibility, ensuring that users can easily navigate through categories, read reviews, and contribute their own insights.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+  actor User
+  actor ReviewHub
+  User->>ReviewHub: Browse categories
+  ReviewHub-->>User: Display list of reviews
+  User->>ReviewHub: Submit a review
+  ReviewHub-->>User: Confirm submission
 ```
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- **Comprehensive Review System**: Users can write and read reviews on a wide range of products and entertainment options.
+- **User Authentication**: Secure login and registration system to ensure user privacy and data protection.
+- **Real-time Updates**: Users receive real-time notifications on new reviews and comments through WebSocket integration.
+- **User Profiles and Interaction**: Users can create profiles, follow other reviewers, and engage with the community through comments and likes on reviews.
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML**: Structure the web pages with semantic HTML elements to ensure accessibility and SEO optimization.
+- **CSS**: Style the application with responsive design techniques to ensure it looks great on all devices, using animations to enhance user interaction.
+- **React**: Develop a single-page application with React, utilizing components for modularity and React Router for seamless navigation between different sections like categories and user profiles.
+- **Service**: Implement a backend service with endpoints for user authentication, review submission, and retrieval.
+- **DB/Login**: Use a database to store user credentials, reviews, and product information securely. Implement user authentication and authorization mechanisms.
+- **WebSocket**: Enable real-time updates for users by broadcasting new reviews and comments as they are submitted, enhancing the interactive experience.
 
 ## 🚀 AWS deliverable
 
