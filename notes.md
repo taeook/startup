@@ -8,14 +8,34 @@
 - [Canvas](https://byu.instructure.com)
 - [MDN](https://developer.mozilla.org)
 
-## AWS
+## EC2 (Elastic Compute Cloud)
+- **Purpose**: EC2 is a web service provided by AWS that allows users to rent virtual servers, known as instances, to run applications on the cloud.
+- **Key Features**: Scalability, flexibility, and a variety of instance types to suit different workloads.
+- **Use Case**: Hosting websites, applications, and services that require reliable and scalable computing power.
 
-My IP address is: 54.81.96.130
-Launching my AMI I initially put it on a private subnet. Even though it had a public IP address and the security group was right, I wasn't able to connect to it.
+## Route 53
+- **Purpose**: Route 53 is a scalable and highly available Domain Name System (DNS) web service by AWS.
+- **Key Features**: Domain registration, DNS routing, and health checking.
+- **Use Case**: Managing domain names and routing end-user requests to AWS services like EC2 instances.
 
-## Caddy
+## HTTPS
+- **Purpose**: HTTPS (Hypertext Transfer Protocol Secure) is an extension of HTTP used for secure communication over a computer network.
+- **Key Features**: Encryption, data integrity, and authentication using SSL/TLS certificates.
+- **Use Case**: Securing data transmission between clients and servers, such as web browsers and websites.
 
-No problems worked just like it said in the [instruction](https://github.com/webprogramming260/.github/blob/main/profile/webServers/https/https.md).
+## Caddyfile
+- **Purpose**: A configuration file used by Caddy, a web server known for its simplicity and automatic HTTPS capabilities.
+- **Key Features**: Easy configuration syntax, automatic HTTPS, and support for various web technologies.
+- **Use Case**: Configuring web servers to serve websites with minimal setup, including automatic handling of HTTPS.
+
+## How They Are Related(EC2, Route 53, HTTPS, Caddyfile)
+1. **Hosting a Secure Website**:
+   - **EC2**: You can host your website or application on an EC2 instance.
+   - **Route 53**: Use Route 53 to manage your domain name and route traffic to your EC2 instance.
+   - **HTTPS**: Secure your website by enabling HTTPS, ensuring data is encrypted between the client and server.
+   - **Caddyfile**: Use a Caddyfile to configure the Caddy web server on your EC2 instance, which can automatically manage HTTPS certificates and serve your website securely.
+
+By combining these services, you can efficiently host and manage a secure, scalable web application on AWS.
 
 ## HTML
 
