@@ -79,7 +79,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Links** - Implemented navigation links between pages to ensure seamless user experience and easy access to different sections.
 - [x] **Text** - Added descriptive text content to each page to guide users and provide context for the application's features.
 - [x] **3rd party API placeholder** - Included a placeholder in the Reviews page for displaying data fetched from third-party APIs.
-- [x] **Images** - Added placeholder images to enhance the visual appeal of the application and provide context for reviews.
+- [x] **Images** - Added a placeholder image on about page
 - [x] **Login placeholder** - Created a login form with input fields for username and password, along with a display for the logged-in user's name.
 - [x] **DB data placeholder** - Added a section in the Reviews and Profile pages to display data fetched from the database, such as user reviews and profile information.
 - [x] **WebSocket placeholder** - Implemented a placeholder for real-time notifications using WebSocket in the Profile page to show dynamic updates.
