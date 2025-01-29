@@ -74,15 +74,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - Created separate HTML pages for each component of the application, including Home, Reviews, Profile, and About pages.
+- [x] **Proper HTML element usage** - Utilized semantic HTML elements like `<header>`, `<nav>`, `<main>`, `<section>`, and `<footer>` to structure the pages effectively.
+- [x] **Links** - Implemented navigation links between pages to ensure seamless user experience and easy access to different sections.
+- [x] **Text** - Added descriptive text content to each page to guide users and provide context for the application's features.
+- [x] **3rd party API placeholder** - Included a placeholder in the Reviews page for displaying data fetched from third-party APIs.
+- [x] **Images** - Added placeholder images to enhance the visual appeal of the application and provide context for reviews.
+- [x] **Login placeholder** - Created a login form with input fields for username and password, along with a display for the logged-in user's name.
+- [x] **DB data placeholder** - Added a section in the Reviews and Profile pages to display data fetched from the database, such as user reviews and profile information.
+- [x] **WebSocket placeholder** - Implemented a placeholder for real-time notifications using WebSocket in the Profile page to show dynamic updates.
 
 ## 🚀 CSS deliverable
 
