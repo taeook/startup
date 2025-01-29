@@ -74,7 +74,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **HTML pages** - Created separate HTML pages for each component of the application, including Home, Reviews, Profile, and About pages.
+- [x] **HTML pages** - Created separate HTML pages for each component of the application, including Home, Reviews(including catagories page), Profile, and About pages.
 - [x] **Proper HTML element usage** - Utilized semantic HTML elements like `<header>`, `<nav>`, `<main>`, `<section>`, and `<footer>` to structure the pages effectively.
 - [x] **Links** - Implemented navigation links between pages to ensure seamless user experience and easy access to different sections.
 - [x] **Text** - Added descriptive text content to each page to guide users and provide context for the application's features.
