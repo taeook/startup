@@ -88,12 +88,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - I used a common CSS file to style these `main.css`. The views specific things are in `about.css`, `profile.css` and `reviews.css`
+- [x] **Navigation elements** - I created a navigation menu within the header, including links to Home, Reviews, Profile, and About pages.
+- [x] **Responsive to window resizing** - I implemented CSS media queries to ensure the layout adjusts for smaller screens, such as stacking navigation links vertically.
+- [x] **Application elements** - I added a login form and a section to display user information, along with placeholders for third-party service calls.
+- [x] **Application text content** - I included descriptive text in the main content area to guide users on the features of the application.
+- [x] **Application images** - I set up a section for images with hover effects to enhance user interaction in about page.
 
 ## 🚀 React part 1: Routing deliverable
 
