@@ -1,51 +1,66 @@
 main {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 30px; /* Add space between sections */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px; /* Space between columns */
 }
 
-section {
+#categories {
+    flex: 1;
+    background-color: #f8f9fa; /* Light gray background for categories */
     padding: 20px;
     border-radius: 8px;
-    background-color: #e9ecef; /* Slightly darker gray for sections */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-section:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
-}
-
-#realtime-reviews, #third-party-placeholder {
-    background-color: #FFFFFF; /* White background for content areas */
-    padding: 15px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#categories h2 {
+    color: #002E5D; /* Navy color for section headings */
 }
 
 #categories ul {
     list-style-type: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
 }
 
 #categories ul li {
-    background-color: #0047BA; /* Royal blue for category items */
-    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+
+#reviews {
+    flex: 3;
+    background-color: #e9ecef; /* Slightly darker gray for reviews section */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#reviews h2 {
+    color: #002E5D; /* Navy color for section headings */
+}
+
+#realtime-reviews {
+    padding: 10px;
+    background-color: #FFFFFF; /* White background for content areas */
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#categories ul li a {
-    color: #FFFFFF; /* White text for category links */
+#third-party-info {
+    margin-top: 20px;
+    background-color: #e9ecef; /* Slightly darker gray for additional info */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#categories ul li:hover {
-    background-color: #006073; /* Darker teal for hover effect */
+#third-party-info h2 {
+    color: #002E5D; /* Navy color for section headings */
+}
+
+#third-party-placeholder {
+    padding: 10px;
+    background-color: #FFFFFF; /* White background for content areas */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
