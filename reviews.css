@@ -28,7 +28,7 @@ main {
 }
 
 #reviews {
-    flex: 3;
+    width: 1000px;
     background-color: #e9ecef; /* Slightly darker gray for reviews section */
     padding: 20px;
     border-radius: 8px;
