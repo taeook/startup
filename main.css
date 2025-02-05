@@ -3,15 +3,16 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    background-color: #FFFFFF; /* White background for the body */
 }
 
-h1, h2 {
-    color: #333;
+h1 {
+    color: #FFFFFF; /* Dark gray for headings */
 }
 
 a {
     text-decoration: none;
-    color: #007BFF;
+    color: #1FB3D1; /* Light blue for links */
 }
 
 a:hover {
@@ -20,9 +21,10 @@ a:hover {
 
 /* Header Styles */
 header {
-    background-color: #f8f9fa;
+    background-color: #002E5D; /* Navy background for header */
     padding: 20px;
     text-align: center;
+    color: #FFFFFF; /* White text for header */
 }
 
 nav ul {
@@ -42,7 +44,6 @@ main {
 
 #login {
     margin-bottom: 20px;
-
 }
 
 #login h2 {
@@ -70,15 +71,15 @@ main {
 #login-form button {
     width: 100%;
     padding: 10px;
-    background-color: #007BFF;
-    color: white;
+    background-color: #0047BA; /* Royal blue for buttons */
+    color: #FFFFFF; /* White text for buttons */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 #login-form button:hover {
-    background-color: #0056b3;
+    background-color: #006073; /* Darker teal for button hover */
 }
 
 #user-display {
@@ -93,18 +94,19 @@ main {
 #third-party-placeholder {
     margin-top: 20px;
     padding: 10px;
-    background-color: #e9ecef;
+    background-color: #e9ecef; /* Light gray for placeholder */
     border-radius: 4px;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #f8f9fa;
+    background-color: #002E5D; /* Navy background for footer */
     text-align: center;
     padding: 10px;
     position: fixed;
     width: 100%;
     bottom: 0;
+    color: #FFFFFF; /* White text for footer */
 }
 
 /* Responsive Styles */
@@ -113,7 +115,6 @@ footer {
         display: block;
         margin: 10px 0;
     }
-
     #login-form {
         width: 90%;
     }
