@@ -1,0 +1,53 @@
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa; 
+}
+
+#profile-info, #user-reviews, #notifications {
+    background-color: #e9ecef; 
+}
+
+#profile-info h2, #user-reviews h2, #notifications h2 {
+    color: #002E5D; 
+}
+
+#database-profile, #database-user-reviews, #realtime-notifications {
+    padding: 10px;
+    background-color: #FFFFFF; 
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styles */
+footer {
+    background-color: #002E5D; 
+    text-align: center;
+    padding: 10px;
+    color: #FFFFFF; 
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+    main {
+        padding: 10px;
+    }
+    section {
+        padding: 15px;
+    }
+}

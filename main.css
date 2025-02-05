@@ -3,16 +3,16 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    background-color: #FFFFFF; /* White background for the body */
+    background-color: #FFFFFF; 
 }
 
 h1 {
-    color: #FFFFFF; /* Dark gray for headings */
+    color: #FFFFFF; 
 }
 
 a {
     text-decoration: none;
-    color: #1FB3D1; /* Light blue for links */
+    color: #1FB3D1; 
 }
 
 a:hover {
@@ -21,10 +21,10 @@ a:hover {
 
 /* Header Styles */
 header {
-    background-color: #002E5D; /* Navy background for header */
+    background-color: #002E5D; 
     padding: 20px;
     text-align: center;
-    color: #FFFFFF; /* White text for header */
+    color: #FFFFFF; 
 }
 
 nav ul {
@@ -71,15 +71,15 @@ main {
 #login-form button {
     width: 100%;
     padding: 10px;
-    background-color: #0047BA; /* Royal blue for buttons */
-    color: #FFFFFF; /* White text for buttons */
+    background-color: #0047BA; 
+    color: #FFFFFF; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 #login-form button:hover {
-    background-color: #006073; /* Darker teal for button hover */
+    background-color: #006073; 
 }
 
 #user-display {
@@ -94,19 +94,19 @@ main {
 #third-party-placeholder {
     margin-top: 20px;
     padding: 10px;
-    background-color: #e9ecef; /* Light gray for placeholder */
+    background-color: #e9ecef; 
     border-radius: 4px;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #002E5D; /* Navy background for footer */
+    background-color: #002E5D; 
     text-align: center;
     padding: 10px;
     position: fixed;
     width: 100%;
     bottom: 0;
-    color: #FFFFFF; /* White text for footer */
+    color: #FFFFFF;
 }
 
 /* Responsive Styles */
