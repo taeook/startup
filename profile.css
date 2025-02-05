@@ -26,28 +26,3 @@ section {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-/* Footer Styles */
-footer {
-    background-color: #002E5D; 
-    text-align: center;
-    padding: 10px;
-    color: #FFFFFF; 
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Responsive Styles */
-@media (max-width: 600px) {
-    nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-    main {
-        padding: 10px;
-    }
-    section {
-        padding: 15px;
-    }
-}
