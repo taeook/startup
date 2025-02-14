@@ -35,7 +35,7 @@ section {
 
 #notifications {
   position: fixed;
-  top: 80px; /* Adjust for header */
+  top: 100px; /* Adjust for header */
   right: 20px;
   height: auto; /* Allow flexible height */
   width: 450px; /* Set a consistent width */
