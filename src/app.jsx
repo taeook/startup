@@ -64,7 +64,7 @@ export default function App() {
         <footer className="text-white-50 text-center py-3" style={{ backgroundColor: '#002E5D' }}>
           <div className="container-fluid">
             <span className="text-reset">Taeook Kim</span>
-            <a className="text-reset ms-3" href="https://github.com/webprogramming260/simon-react">GitHub</a>
+            <a className="text-reset ms-3" href="https://github.com/taeook/startup">GitHub</a>
           </div>
         </footer>
       </div>
