@@ -6,12 +6,13 @@ import { Login } from './login/login';
 import { Reviews } from './reviews/reviews';
 import { Profile } from './profile/profile';
 import { About } from './about/about';
+import Books from './reviews/books/books'; // Correctly import Books from the nested directory
 
 export default function App() {
-    return (
-        <BrowserRouter>
+  return (
+    <BrowserRouter>
       <div className="body text-light">
-        <header className="container-fluid" style={{ backgroundColor: '#002E5D' }}>
+        <header className="container-fluid fixed-top" style={{ backgroundColor: '#002E5D' }}>
           <nav className="navbar navbar-expand-lg navbar-dark justify-content-center">
             <div className="container-fluid">
               <a className="navbar-brand mx-auto" href="#">ReviewHub<sup>&reg;</sup></a>
@@ -37,13 +38,17 @@ export default function App() {
             </div>
           </nav>
         </header>
-        <Routes>
+        <div style={{ paddingTop: '80px' }}> {/* Adjust padding to match navbar height */}
+          <Routes>
             <Route path='/' element={<Login />} exact />
             <Route path='/profile' element={<Profile />} />
-            <Route path='/reviews' element={<Reviews />} />
+            <Route path='/reviews' element={<Reviews />}>
+              <Route path='books' element={<Books />} /> {/* Nested route for Books */}
+            </Route>
             <Route path='/about' element={<About />} />
             <Route path='*' element={<NotFound />} />
-        </Routes>
+          </Routes>
+        </div>
         <footer className="text-white-50 text-center py-3" style={{ backgroundColor: '#002E5D' }}>
           <div className="container-fluid">
             <span className="text-reset">Taeook Kim</span>
@@ -51,10 +56,10 @@ export default function App() {
           </div>
         </footer>
       </div>
-      </BrowserRouter>
-    );
-  }
+    </BrowserRouter>
+  );
+}
 
-  function NotFound() {
-    return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
-  }
+function NotFound() {
+  return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
+}
