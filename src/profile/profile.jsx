@@ -1,26 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="profile.css">
-</head>
-<body>
-    <header>
-        <h1>Welcome to the ReviewHub</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="reviews.html">Reviews</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-        
-    </header>
+import React from 'react';
+import './profile.css';
 
+export function Profile() {
+  return (
     <main>
         <div id="left-column">
             <section id="notifications">
@@ -45,9 +27,5 @@
             </section>
         </div>
     </main>
-
-    <footer>
-        
-        <a href="https://github.com/taeook/startup">GitHub</a>
-    </footer>
-</body>
+  );
+}
