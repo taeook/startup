@@ -1,68 +1,94 @@
-/* profile.css */
 main {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: flex-start; /* Align items at the top */
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  min-height: calc(100vh - 60px); /* Adjust based on header height */
 }
 
 #left-column {
-    flex: 1; /* Narrower column */
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; /* Ensure full width */
-    margin-left: 1400px; /* Corrected margin */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-left: 0;
 }
 
 #right-column {
-    flex: 2; /* Wider column */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-left: -100px;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 0;
 }
 
 section {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
 }
 
 #notifications {
-  height: 300px;
-  width: 450px;
+  position: fixed;
+  top: 80px; /* Adjust for header */
+  right: 20px;
+  height: auto; /* Allow flexible height */
+  width: 450px; /* Set a consistent width */
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 #profile-info, #user-reviews {
-    background-color: #e9ecef;
-    width: 1000px;
+  background-color: #e9ecef;
+  max-width: 100%;
 }
 
 #profile-info h2, #user-reviews h2, #notifications h2 {
-    color: #002E5D;
+  color: #002E5D;
 }
 
-#database-profile, #database-user-reviews, #realtime-notifications  {
-    padding: 10px;
-    background-color: #FFFFFF;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
+#database-profile, #database-user-reviews, #realtime-notifications {
+  padding: 10px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #notifications h2 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  margin: 0;
 }
 
 #notifications h2::before {
-    content: '🔔'; /* Notification icon */
-    margin-right: 8px;
+  content: '🔔';
+  margin-right: 8px;
 }
 
 p {
     color: black;
+}
+
+@media (max-width: 768px) {
+  main {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #left-column, #right-column {
+      width: 100%;
+  }
+
+  #notifications {
+      position: relative;
+      width: auto;
+      top: initial;
+      right: initial;
+  }
 }
