@@ -6,7 +6,14 @@ import { Login } from './login/login';
 import { Reviews } from './reviews/reviews';
 import { Profile } from './profile/profile';
 import { About } from './about/about';
-import Books from './reviews/books/books'; // Correctly import Books from the nested directory
+
+//Categories
+import Books from './reviews/books/books';
+import Clothes from './reviews/clothes/clothes';
+import Electronics from './reviews/electronics/electronics';
+import Games from './reviews/games/games';
+import Movies from './reviews/movies/movies';
+import Restaurants from './reviews/restaurants/restaurants';
 
 export default function App() {
   return (
@@ -39,15 +46,19 @@ export default function App() {
           </nav>
         </header>
         <div style={{ paddingTop: '80px' }}> {/* Adjust padding to match navbar height */}
-          <Routes>
-            <Route path='/' element={<Login />} exact />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/reviews' element={<Reviews />}>
-              <Route path='books' element={<Books />} /> {/* Nested route for Books */}
-            </Route>
-            <Route path='/about' element={<About />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
+        <Routes>
+        <Route path='/' element={<Login />} exact />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/reviews' element={<Reviews />} />
+        <Route path='/reviews/books' element={<Books />} />
+        <Route path='/reviews/clothes' element={<Clothes />} /> 
+        <Route path='/reviews/electronics' element={<Electronics />} /> 
+        <Route path='/reviews/games' element={<Games />} /> 
+        <Route path='/reviews/movies' element={<Movies />} />
+        <Route path='/reviews/restaurants' element={<Restaurants />} /> 
+        <Route path='/about' element={<About />} />
+        <Route path='*' element={<NotFound />} />
+        </Routes>
         </div>
         <footer className="text-white-50 text-center py-3" style={{ backgroundColor: '#002E5D' }}>
           <div className="container-fluid">
