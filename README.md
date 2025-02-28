@@ -108,8 +108,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - The app includes all essential components and routes, with placeholders for key features like login and reviews.
+- [x] **Hooks** - The app uses `useState` for state management and `useEffect` for side effects, such as fetching stored user data.
 
 ## 🚀 Service deliverable
 
