@@ -17,6 +17,10 @@ import Movies from './reviews/movies/movies';
 import Restaurants from './reviews/restaurants/restaurants';
 
 export default function App() {
+  const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+  const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+  const [authState, setAuthState] = React.useState(currentAuthState);
+
   return (
     <BrowserRouter>
       <div className="body text-light">
@@ -32,12 +36,16 @@ export default function App() {
                   <li className="nav-item">
                     <NavLink className='nav-link' to=''>Home</NavLink>
                   </li>
-                  <li className="nav-item">
-                    <NavLink className='nav-link' to='reviews'>Reviews</NavLink>
-                  </li>
-                  <li className="nav-item">
+                  {authState === AuthState.Authenticated && (
+                    <li className="nav-item">
+                      <NavLink className='nav-link' to='reviews'>Reviews</NavLink>
+                    </li>
+                  )}
+                  {authState === AuthState.Authenticated && (
+                    <li className="nav-item">
                     <NavLink className='nav-link' to='profile'>Profile</NavLink>
                   </li>
+                  )}
                   <li className="nav-item">
                     <NavLink className='nav-link' to='About'>About</NavLink>
                   </li>
@@ -48,17 +56,31 @@ export default function App() {
         </header>
         <div style={{ paddingTop: '80px' }}> {/* Adjust padding to match navbar height */}
         <Routes>
-        <Route path='/' element={<Login />} exact />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/reviews' element={<Reviews />} />
-        <Route path='/reviews/books' element={<Books />} />
-        <Route path='/reviews/clothes' element={<Clothes />} /> 
-        <Route path='/reviews/electronics' element={<Electronics />} /> 
-        <Route path='/reviews/games' element={<Games />} /> 
-        <Route path='/reviews/movies' element={<Movies />} />
-        <Route path='/reviews/restaurants' element={<Restaurants />} /> 
-        <Route path='/about' element={<About />} />
-        <Route path='*' element={<NotFound />} />
+          <Route
+            path='/'
+            element={
+              <Login
+                userName={userName}
+                authState={authState}
+                onAuthChange={(userName, authState) => {
+                  setAuthState(authState);
+                  setUserName(userName);
+                }}
+              />
+            }
+            exact
+          />
+          <Route path='/' element={<Login />} exact />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/reviews' element={<Reviews />} />
+          <Route path='/reviews/books' element={<Books />} />
+          <Route path='/reviews/clothes' element={<Clothes />} /> 
+          <Route path='/reviews/electronics' element={<Electronics />} /> 
+          <Route path='/reviews/games' element={<Games />} /> 
+          <Route path='/reviews/movies' element={<Movies />} />
+          <Route path='/reviews/restaurants' element={<Restaurants />} /> 
+          <Route path='/about' element={<About />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
         </div>
         <footer className="text-white-50 text-center py-3" style={{ backgroundColor: '#002E5D' }}>
