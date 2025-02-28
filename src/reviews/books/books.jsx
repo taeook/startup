@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../sidebar'; // Import the Sidebar component
 import '../reviews.css';
 
-function Books(username) {
+function Books({username}) {
   return (
     <main className="container">
       <Sidebar /> {/* Use the Sidebar component */}
