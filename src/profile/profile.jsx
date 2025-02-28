@@ -11,7 +11,7 @@ export function Profile({ username, onLogout }) {
       // Simulated data
       const data = {
         name: username,
-        email: `${username}@example.com`,
+        email: `${username}@byu.edu`,
         joined: 'January 2023',
       };
       setProfileData(data);
