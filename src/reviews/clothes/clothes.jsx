@@ -2,11 +2,19 @@ import React from 'react';
 import Sidebar from '../sidebar'; // Import the Sidebar component
 import '../reviews.css';
 
-function Clothes() {
+function Clothes(username) {
   return (
     <main className="container">
       <Sidebar /> {/* Use the Sidebar component */}
       <div id="main-content">
+      <h2>
+          Hi, {username}!
+        </h2>
+        {username === 'Guest' && (
+          <p className="alert alert-info">
+            Create an account to enjoy more features!
+          </p>
+        )}
         <section id="reviews">
           <h2>Latest Clothes Reviews</h2>
           <div id="realtime-reviews">

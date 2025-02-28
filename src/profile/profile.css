@@ -75,6 +75,20 @@ p {
     color: black;
 }
 
+#logout_profile{
+  width: 100%;
+  padding: 10px;
+  background-color: #0047BA; 
+  color: #FFFFFF; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#logout_profile:hover {
+  background-color: #006073; 
+}
+
 @media (max-width: 768px) {
   main {
       flex-direction: column;
