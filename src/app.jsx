@@ -12,6 +12,7 @@ import Games from './reviews/games/games';
 import Movies from './reviews/movies/movies';
 import Restaurants from './reviews/restaurants/restaurants';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
 
 export default function App() {
