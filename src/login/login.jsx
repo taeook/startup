@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function Login({ authState, onLogin, onLogout }) {
@@ -7,19 +7,26 @@ export function Login({ authState, onLogin, onLogout }) {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (username && password) {
-      onLogin(username);
-      setError('');
-      navigate('/'); // Redirect to home or another page after login
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+          onLogin(username);
+          navigate('/');
+        } else {
+          const errorData = await response.json();
+          setError(errorData.msg);
+        }
+      } catch (error) {
+        setError('An error occurred. Please try again.');
+      }
     } else {
       setError('Please enter both username and password.');
     }
@@ -27,7 +34,7 @@ export function Login({ authState, onLogin, onLogout }) {
 
   const handleLogout = () => {
     onLogout();
-    navigate('/'); // Redirect to login page after logout
+    navigate('/');
   };
 
   return (
@@ -67,7 +74,9 @@ export function Login({ authState, onLogin, onLogout }) {
           </form>
         )}
         {error && <p className="error">{error}</p>}
-        <li className="sign-in-link"><a href="">Create an account</a></li>
+        <li className="sign-in-link">
+          <a href="/signup">Create an account</a>
+        </li>
       </div>
       <div id="content">
         <h2>Explore Our Features</h2>

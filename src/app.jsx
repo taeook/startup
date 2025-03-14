@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './app.css';
+import React, { useState } from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
+import { Signup } from './signup/signup'; // Import the Signup component
 import { Reviews } from './reviews/reviews';
 import { Profile } from './profile/profile';
 import { About } from './about/about';
@@ -14,29 +12,26 @@ import Electronics from './reviews/electronics/electronics';
 import Games from './reviews/games/games';
 import Movies from './reviews/movies/movies';
 import Restaurants from './reviews/restaurants/restaurants';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css';
 
 export default function App() {
   const [authState, setAuthState] = useState(false);
   const [username, setUsername] = useState('');
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setAuthState(true);
-      setUsername(storedUsername);
-    }
-  }, []);
-
   const handleLogin = (username) => {
     setAuthState(true);
     setUsername(username);
-    localStorage.setItem('username', username);
   };
 
   const handleLogout = () => {
     setAuthState(false);
     setUsername('');
-    localStorage.removeItem('username');
+  };
+
+  const handleSignup = (username) => {
+    setAuthState(true);
+    setUsername(username);
   };
 
   return (
@@ -70,9 +65,10 @@ export default function App() {
             </div>
           </nav>
         </header>
-        <div style={{ paddingTop: '80px' }}> {/* Adjust padding to match navbar height */}
+        <div style={{ paddingTop: '80px' }}>
           <Routes>
             <Route path='/' element={<Login authState={authState} onLogin={handleLogin} onLogout={handleLogout} />} exact />
+            <Route path='/signup' element={<Signup onSignup={handleSignup} />} />
             <Route path='/profile' element={authState ? <Profile username={username} onLogout={handleLogout} /> : <Login authState={authState} onLogin={handleLogin} onLogout={handleLogout} />} />
             <Route path='/reviews' element={<Reviews username={authState ? username : 'Guest'} />} />
             <Route path='/reviews/books' element={<Books username={authState ? username : 'Guest'} />} />

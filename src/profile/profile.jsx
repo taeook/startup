@@ -6,25 +6,32 @@ export function Profile({ username, onLogout }) {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching profile data
-    const fetchProfileData = () => {
-      // Simulated data
-      const data = {
-        name: username,
-        email: `${username}@byu.edu`,
-        joined: 'January 2023',
-      };
-      setProfileData(data);
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch('/api/profile');
+        if (response.ok) {
+          const data = await response.json();
+          setProfileData(data);
+        } else {
+          console.error('Failed to fetch profile data');
+        }
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
     };
 
-    // Simulate fetching user reviews
-    const fetchUserReviews = () => {
-      // Simulated reviews
-      const userReviews = [
-        { id: 1, title: 'Great Product!', content: 'I really enjoyed using this product.' },
-        { id: 2, title: 'Not bad', content: 'It was okay, could be better.' },
-      ];
-      setReviews(userReviews);
+    const fetchUserReviews = async () => {
+      try {
+        const response = await fetch('/api/user-reviews');
+        if (response.ok) {
+          const data = await response.json();
+          setReviews(data);
+        } else {
+          console.error('Failed to fetch user reviews');
+        }
+      } catch (error) {
+        console.error('Error fetching user reviews:', error);
+      }
     };
 
     fetchProfileData();
@@ -37,7 +44,7 @@ export function Profile({ username, onLogout }) {
         <section id="notifications">
           <h2>Real-time Notifications</h2>
           <div id="realtime-notifications">
-            <p>Waiting for new notifications...(Websocket Data)</p>
+            <p>Waiting for new notifications...</p>
           </div>
         </section>
       </div>
@@ -52,7 +59,7 @@ export function Profile({ username, onLogout }) {
                 <p>Joined: {profileData.joined}</p>
               </div>
             ) : (
-              <p>Loading user profile data...(Database Data)</p>
+              <p>Loading user profile data...</p>
             )}
           </div>
         </section>
@@ -67,7 +74,7 @@ export function Profile({ username, onLogout }) {
                 </div>
               ))
             ) : (
-              <p>Loading your reviews...(Database Data)</p>
+              <p>Loading your reviews...</p>
             )}
           </div>
         </section>
