@@ -36,7 +36,7 @@ apiRouter.post('/auth/login', async (req, res) => {
     setAuthCookie(res, user.token);
     res.send({ username: user.username });
   } else {
-    res.status(401).send({ msg: 'Unauthorized' });
+    res.status(401).send({ msg: 'Invalid username or password. Please try again.' });
   }
 });
 

@@ -26,6 +26,7 @@ export function Login({ authState, onLogin, onLogout }) {
 
         if (response.ok) {
           onLogin(username);
+          setError('')
           localStorage.setItem('username', username); // Store username
           navigate('/');
         } else {
