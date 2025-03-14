@@ -8,7 +8,7 @@ const authCookieName = 'token';
 let users = [];
 let reviews = []; // Sample reviews data
 
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.json());
 app.use(cookieParser());
