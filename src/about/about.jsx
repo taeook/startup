@@ -2,30 +2,31 @@ import React, { useState, useEffect } from 'react';
 import './about.css';
 
 export function About() {
-  const [imageUrl, setImageUrl] = useState('placeholder.jpg');
+  const [imageUrl, setImageUrl] = useState('https://picsum.photos/600/400');
   const [quote, setQuote] = useState('Loading quote...');
+  const [quoteAuthor, setQuoteAuthor] = useState('');
 
   useEffect(() => {
-    // Function to fetch image URL and quote
-    const fetchImageAndQuote = async () => {
+    // Function to fetch quote
+    const fetchQuote = async () => {
       try {
-        // Placeholder URLs for image and quote APIs
-        const imageResponse = await fetch('https://api.example.com/random-image');
-        const quoteResponse = await fetch('https://api.example.com/random-quote');
-
-        // Assuming the APIs return JSON with a 'url' and 'quote' field respectively
-        const imageData = await imageResponse.json();
+        // Fetch quote from the provided API
+        const quoteResponse = await fetch('https://quote.cs260.click');
         const quoteData = await quoteResponse.json();
-
-        // Update state with fetched data
-        setImageUrl(imageData.url);
+        
+        // Update state with fetched quote data
         setQuote(quoteData.quote);
+        setQuoteAuthor(quoteData.author);
+
+        // Set random image URL using picsum.photos
+        setImageUrl('https://picsum.photos/1000/500');
+
       } catch (error) {
-        console.error('Error fetching image or quote:', error);
+        console.error('Error fetching quote:', error);
       }
     };
 
-    fetchImageAndQuote();
+    fetchQuote();
   }, []); // Empty dependency array ensures this runs once on component mount
 
   return (
@@ -35,6 +36,7 @@ export function About() {
       </div>
       <div id="realtime-reviews">
         <p>{quote}</p>
+        <p><em>- {quoteAuthor}</em></p>
         <p>
           ReviewHub is your go-to platform for honest and comprehensive reviews on a wide range of products and entertainment.
         </p>

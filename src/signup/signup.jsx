@@ -4,6 +4,7 @@ import './signup.css';
 
 export function Signup() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -15,7 +16,7 @@ export function Signup() {
       const response = await fetch('/api/auth/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       if (response.ok) {
@@ -48,17 +49,26 @@ export function Signup() {
           <input
             type="text"
             id="username"
-            placeholder="Create your username"
             value={username}
+            placeholder='Enter your user name'
             onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            placeholder='Enter your email'
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
-            placeholder="Create your password"
             value={password}
+            placeholder='Enter your user password'
             onChange={(e) => setPassword(e.target.value)}
             required
           />

@@ -19,14 +19,14 @@ app.use('/api', apiRouter);
 
 // Create a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await findUser('username', req.body.username)) {
-    res.status(409).send({ msg: 'Existing user' });
-  } else {
-    const user = await createUser(req.body.username, req.body.password);
-    setAuthCookie(res, user.token);
-    res.send({ username: user.username });
-  }
-});
+    if (await findUser('username', req.body.username)) {
+      res.status(409).send({ msg: 'Existing user' });
+    } else {
+      const user = await createUser(req.body.username, req.body.email, req.body.password);
+      setAuthCookie(res, user.token);
+      res.send({ username: user.username });
+    }
+  });
 
 // Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
@@ -52,16 +52,17 @@ apiRouter.delete('/auth/logout', (req, res) => {
 
 // Fetch profile data
 apiRouter.get('/profile', verifyAuth, (req, res) => {
-  const user = findUser('token', req.cookies[authCookieName]);
-  if (user) {
-    res.send({
-      name: user.username,
-      joined: 'January 2023', // Example data
-    });
-  } else {
-    res.status(404).send({ msg: 'User not found' });
-  }
-});
+    const user = findUser('token', req.cookies[authCookieName]);
+    if (user) {
+      res.send({
+        name: user.username,
+        email: user.email,
+        joined: user.joined,
+      });
+    } else {
+      res.status(404).send({ msg: 'User not found' });
+    }
+  });
 
 // Fetch user reviews
 apiRouter.get('/user-reviews', verifyAuth, (req, res) => {
@@ -88,12 +89,14 @@ function verifyAuth(req, res, next) {
   }
 }
 
-async function createUser(username, password) {
+async function createUser(username, email, password) {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = {
     username: username,
+    email: email,
     password: passwordHash,
     token: uuid.v4(),
+    joined: new Date().toLocaleString(), // Store the current date
   };
   users.push(user);
   return user;
