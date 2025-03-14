@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function Login({ authState, onLogin, onLogout }) {
@@ -6,6 +6,13 @@ export function Login({ authState, onLogin, onLogout }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +26,7 @@ export function Login({ authState, onLogin, onLogout }) {
 
         if (response.ok) {
           onLogin(username);
+          localStorage.setItem('username', username); // Store username
           navigate('/');
         } else {
           const errorData = await response.json();
@@ -34,6 +42,7 @@ export function Login({ authState, onLogin, onLogout }) {
 
   const handleLogout = () => {
     onLogout();
+    localStorage.removeItem('username'); // Clear username
     navigate('/');
   };
 

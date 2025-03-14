@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
-import { Signup } from './signup/signup'; // Import the Signup component
+import { Signup } from './signup/signup';
 import { Reviews } from './reviews/reviews';
 import { Profile } from './profile/profile';
 import { About } from './about/about';
-// Categories
 import Books from './reviews/books/books';
 import Clothes from './reviews/clothes/clothes';
 import Electronics from './reviews/electronics/electronics';
@@ -19,19 +18,30 @@ export default function App() {
   const [authState, setAuthState] = useState(false);
   const [username, setUsername] = useState('');
 
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setAuthState(true);
+      setUsername(storedUsername);
+    }
+  }, []);
+
   const handleLogin = (username) => {
     setAuthState(true);
     setUsername(username);
+    localStorage.setItem('username', username);
   };
 
   const handleLogout = () => {
     setAuthState(false);
     setUsername('');
+    localStorage.removeItem('username');
   };
 
   const handleSignup = (username) => {
     setAuthState(true);
     setUsername(username);
+    localStorage.setItem('username', username);
   };
 
   return (
