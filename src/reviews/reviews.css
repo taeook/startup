@@ -127,6 +127,7 @@
       flex-direction: column; /* stack sidebar on top for small screens */
   }
   #sidebar {
+      position: relative;
       height: auto; /* allow sidebar height to adjust as needed */
       width: 100%; /* full width for the sidebar */
       margin-left: 0; /* no margin needed */
