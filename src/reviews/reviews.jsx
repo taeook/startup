@@ -17,7 +17,9 @@ export function Reviews({ username, authState }) {
         const response = await fetch('/api/reviews');
         if (response.ok) {
           const data = await response.json();
-          setReviews(data);
+          // Sort reviews by the 'created' date in descending order
+          const sortedData = data.sort((a, b) => new Date(b.created) - new Date(a.created));
+          setReviews(sortedData);
         } else {
           setError('Failed to fetch reviews');
         }
@@ -80,9 +82,12 @@ export function Reviews({ username, authState }) {
             ) : currentReviews.length > 0 ? (
               currentReviews.map((review) => (
                 <div key={review.id}>
-                  <h3>title: {review.title}</h3>
-                  <p>Content: {review.content}</p>
+                  <h3>{review.title}</h3>
+                  <p>{review.content}</p>
+                  <p><strong>Author:</strong> {review.author}</p>
+                  <p><strong>Created:</strong> {review.created}</p>
                   <p><strong>Category:</strong> {review.category}</p>
+                  <hr class="my-4 border-dark" />
                 </div>
               ))
             ) : (

@@ -14,6 +14,8 @@ function Electronics({ username, authState }) { // Ensure authState is a prop
         const response = await fetch('/api/posts/category/Electronics');
         if (response.ok) {
           const data = await response.json();
+          // Sort reviews by the 'created' date in descending order
+          const sortedData = data.sort((a, b) => new Date(b.created) - new Date(a.created));
           setPosts(data);
         } else {
           console.error('Failed to fetch posts');
