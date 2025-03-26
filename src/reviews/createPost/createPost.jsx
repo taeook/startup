@@ -23,7 +23,7 @@ function CreatePostPage() {
           setTitle('');
           setContent('');
           setCategory('');
-          navigate('/reviews'); // Redirect to the reviews page
+          navigate(-1);
         } else {
           alert('Failed to create post');
         }

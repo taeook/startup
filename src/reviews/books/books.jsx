@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../sidebar';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import '../reviews.css';
 
-function Books({ username }) {
+function Books({ username, authState }) { // Ensure authState is a prop
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
@@ -27,7 +28,6 @@ function Books({ username }) {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
   const handlePageChange = (pageNumber) => {
@@ -55,6 +55,11 @@ function Books({ username }) {
           <p className="alert alert-info">
             Create an account to enjoy more features!
           </p>
+        )}
+        {authState && ( // Conditionally render the button
+          <Link to="/create-post">
+            <button id="Post">Write a Post</button>
+          </Link>
         )}
         <section id="reviews">
           <h2>Latest Book Reviews</h2>
