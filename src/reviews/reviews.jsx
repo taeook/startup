@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar';
+import { Link } from 'react-router-dom';
+import CreatePost from './createPost/createPost'; // Adjust the path
 import './reviews.css';
 
-export function Reviews({ username }) {
+export function Reviews({ username, authState }) {
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 5;
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -13,15 +19,41 @@ export function Reviews({ username }) {
           const data = await response.json();
           setReviews(data);
         } else {
-          console.error('Failed to fetch reviews');
+          setError('Failed to fetch reviews');
         }
       } catch (error) {
-        console.error('Error fetching reviews:', error);
+        setError('Error fetching reviews');
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchReviews();
   }, []);
+
+  // Calculate the reviews to display on the current page
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <main className="container">
@@ -33,19 +65,47 @@ export function Reviews({ username }) {
             Create an account to enjoy more features!
           </p>
         )}
+        {authState && (
+          <Link to="/create-post">
+            <button id="Post">Write a Post</button>
+          </Link>
+        )}
         <section id="reviews">
           <h2>Latest Reviews</h2>
           <div id="realtime-reviews">
-            {reviews.length > 0 ? (
-              reviews.map((review) => (
+            {loading ? (
+              <p>Loading latest reviews...</p>
+            ) : error ? (
+              <p>{error}</p>
+            ) : currentReviews.length > 0 ? (
+              currentReviews.map((review) => (
                 <div key={review.id}>
-                  <h3>{review.title}</h3>
-                  <p>{review.content}</p>
+                  <h3>title: {review.title}</h3>
+                  <p>Content: {review.content}</p>
+                  <p><strong>Category:</strong> {review.category}</p>
                 </div>
               ))
             ) : (
-              <p>Loading latest reviews...</p>
+              <p>No reviews available.</p>
             )}
+          </div>
+          {/* Pagination Controls */}
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => handlePageChange(index + 1)}
+                className={currentPage === index + 1 ? 'active' : ''}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              Next
+            </button>
           </div>
         </section>
         <section id="third-party-info" className="mt-4">

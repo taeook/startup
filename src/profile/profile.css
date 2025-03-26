@@ -9,6 +9,9 @@ main {
   position: relative;
   min-height: calc(100vh - 60px); /* Adjust based on header height */
 }
+#database-user-reviews h3 {
+  color:black
+}
 
 #left-column {
   flex: 1;

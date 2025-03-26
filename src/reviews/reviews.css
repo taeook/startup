@@ -48,6 +48,79 @@
   background-color: #e2e6ea;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+.pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #0056b3;
+}
+
+#Post {
+  background-color: #0047BA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 20px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#Post:hover {
+  background-color: #170f6d;
+}
+
+#Post:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(5, 12, 89, 0.5);
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px; /* Adjust the width as needed */
+  height: 100vh; /* Full viewport height */
+  background-color: #f8f9fa; /* Background color */
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Allows scrolling if content overflows */
+}
+
+#sidebar h2 {
+  margin-top: 110px; /* Add margin to move the heading down */
+}
+
+#main-content {
+  margin-left: 220px; /* Adjust based on sidebar width */
+  padding: 20px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .container {

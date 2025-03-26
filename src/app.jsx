@@ -11,6 +11,7 @@ import Electronics from './reviews/electronics/electronics';
 import Games from './reviews/games/games';
 import Movies from './reviews/movies/movies';
 import Restaurants from './reviews/restaurants/restaurants';
+import CreatePostPage from './reviews/createPost/createPost';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
@@ -81,7 +82,7 @@ export default function App() {
             <Route path='/' element={<Login authState={authState} onLogin={handleLogin} onLogout={handleLogout} />} exact />
             <Route path='/signup' element={<Signup onSignup={handleSignup} />} />
             <Route path='/profile' element={authState ? <Profile username={username} onLogout={handleLogout} /> : <Login authState={authState} onLogin={handleLogin} onLogout={handleLogout} />} />
-            <Route path='/reviews' element={<Reviews username={authState ? username : 'Guest'} />} />
+            <Route path='/reviews' element={<Reviews username={authState ? username : 'Guest'} authState={authState} />} />
             <Route path='/reviews/books' element={<Books username={authState ? username : 'Guest'} />} />
             <Route path='/reviews/clothes' element={<Clothes username={authState ? username : 'Guest'} />} />
             <Route path='/reviews/electronics' element={<Electronics username={authState ? username : 'Guest'} />} />
@@ -90,6 +91,7 @@ export default function App() {
             <Route path='/reviews/restaurants' element={<Restaurants username={authState ? username : 'Guest'} />} />
             <Route path='/about' element={<About />} />
             <Route path='*' element={<NotFound />} />
+            <Route path='/create-post' element={<CreatePostPage />} />
           </Routes>
         </div>
         <footer className="text-white-50 text-center py-3" style={{ backgroundColor: '#002E5D' }}>

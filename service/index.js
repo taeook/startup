@@ -19,13 +19,15 @@ app.use('/api', apiRouter);
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
 let usersCollection;
+let postsCollection;
 
 // Connect to MongoDB
 async function connectToDB() {
   try {
     await client.connect();
-    const db = client.db('startup'); 
+    const db = client.db('startup');
     usersCollection = db.collection('users');
+    postsCollection = db.collection('posts'); // New collection for posts
     console.log('Connected to MongoDB');
   } catch (err) {
     console.error(err);
@@ -87,17 +89,53 @@ apiRouter.get('/profile', verifyAuth, async (req, res) => {
 });
 
 // Fetch user reviews
-apiRouter.get('/user-reviews', verifyAuth, (req, res) => {
-  const userReviews = [
-    { id: 1, title: 'Great Product!', content: 'I really enjoyed using this product.' },
-    { id: 2, title: 'Not bad', content: 'It was okay, could be better.' },
-  ];
-  res.send(userReviews);
+apiRouter.get('/user-reviews', verifyAuth, async (req, res) => {
+  try {
+    const user = await findUser('token', req.cookies[authCookieName]);
+    if (user) {
+      const userReviews = await postsCollection.find({ author: user.username }).toArray();
+      res.send(userReviews);
+    } else {
+      res.status(404).send({ msg: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user reviews:', error);
+    res.status(500).send({ msg: 'Error fetching user reviews' });
+  }
+});
+
+apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (user) {
+    const post = {
+      title: req.body.title,
+      content: req.body.content,
+      author: user.username,
+      created: new Date().toLocaleString(),
+      category: req.body.category, // Add categories
+    };
+    await postsCollection.insertOne(post);
+    res.status(201).send({ msg: 'Post created successfully' });
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+});
+
+apiRouter.get('/posts/category/:category', async (req, res) => {
+  const category = req.params.category;
+  const posts = await postsCollection.find({ category: category }).toArray();
+  res.send(posts);
 });
 
 // Fetch all reviews
-apiRouter.get('/reviews', (req, res) => {
-  res.send(reviews);
+apiRouter.get('/reviews', async (req, res) => {
+  try {
+    const allReviews = await postsCollection.find({}).toArray();
+    res.send(allReviews);
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).send({ msg: 'Error fetching reviews' });
+  }
 });
 
 // Middleware to verify that the user is authorized
