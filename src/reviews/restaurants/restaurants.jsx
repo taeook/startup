@@ -3,7 +3,7 @@ import Sidebar from '../sidebar';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 import '../reviews.css';
 
-function Movies({ username, authState }) { // Ensure authState is a prop
+function Restaurants({ username, authState }) { // Ensure authState is a prop
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
@@ -11,7 +11,7 @@ function Movies({ username, authState }) { // Ensure authState is a prop
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts/category/Movies');
+        const response = await fetch('/api/posts/category/Restaurants');
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
@@ -99,7 +99,7 @@ function Movies({ username, authState }) { // Ensure authState is a prop
         <section id="third-party-info" className="mt-4">
           <h2>Additional Information</h2>
           <div id="third-party-placeholder">
-            <p>Loading additional information about Movies from external sources...</p>
+            <p>Loading additional information about Restaurants from external sources...</p>
           </div>
         </section>
       </div>
@@ -107,4 +107,4 @@ function Movies({ username, authState }) { // Ensure authState is a prop
   );
 }
 
-export default Movies;
+export default Restaurants;

@@ -74,7 +74,7 @@ function Movies({ username, authState }) { // Ensure authState is a prop
                 </div>
               ))
             ) : (
-              <p>Loading the latest book reviews...</p>
+              <p>Loading the latest Movies reviews...</p>
             )}
           </div>
           {/* Pagination Controls */}
