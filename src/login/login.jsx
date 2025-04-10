@@ -95,7 +95,7 @@ export function Login({ authState, onLogin, onLogout }) {
           with real-time notifications.
         </p>
         <div id="third-party-placeholder">
-          <p>Loading latest movie and game information...</p>
+          <p>How are you doing today?</p>
         </div>
       </div>
     </main>
