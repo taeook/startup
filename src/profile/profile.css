@@ -101,6 +101,10 @@ p {
   color: black;
 }
 
+#show-notifications-btn:hover {
+  background: #006073;
+}
+
 @media (max-width: 768px) {
   main {
       flex-direction: column;
