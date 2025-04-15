@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../sidebar';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link } from 'react-router-dom';
 import '../reviews.css';
 
-function Books({ username, authState }) { // Ensure authState is a prop
+function Books({ username, authState }) {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
@@ -14,9 +14,9 @@ function Books({ username, authState }) { // Ensure authState is a prop
         const response = await fetch('/api/posts/category/Books');
         if (response.ok) {
           const data = await response.json();
-          // Sort reviews by the 'created' date in descending order
+          // Sort posts by the 'created' date in descending order
           const sortedData = data.sort((a, b) => new Date(b.created) - new Date(a.created));
-          setPosts(data);
+          setPosts(sortedData);
         } else {
           console.error('Failed to fetch posts');
         }
@@ -35,18 +35,51 @@ function Books({ username, authState }) { // Ensure authState is a prop
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
-
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  // Helper function for pagination numbers with ellipsis
+  function getPageNumbers(currentPage, totalPages, maxPagesToShow = 5) {
+    const pages = [];
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      const half = Math.floor(maxPagesToShow / 2);
+      let start = Math.max(1, currentPage - half);
+      let end = Math.min(totalPages, currentPage + half);
+
+      if (currentPage <= half) {
+        end = maxPagesToShow;
+        start = 1;
+      } else if (currentPage + half >= totalPages) {
+        end = totalPages;
+        start = totalPages - maxPagesToShow + 1;
+      }
+
+      if (start > 1) {
+        pages.push(1);
+        if (start > 2) pages.push('...');
+      }
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  }
 
   return (
     <main className="container">
@@ -58,7 +91,7 @@ function Books({ username, authState }) { // Ensure authState is a prop
             Create an account to enjoy more features!
           </p>
         )}
-        {authState && ( // Conditionally render the button
+        {authState && (
           <Link to="/create-post">
             <button id="Post">Write a Post</button>
           </Link>
@@ -84,15 +117,19 @@ function Books({ username, authState }) { // Ensure authState is a prop
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </button>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
+            {getPageNumbers(currentPage, totalPages, 3).map((page, idx) =>
+              page === '...' ? (
+                <span key={`ellipsis-${idx}`} className="ellipsis">...</span>
+              ) : (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={currentPage === page ? 'active' : ''}
+                >
+                  {page}
+                </button>
+              )
+            )}
             <button onClick={handleNextPage} disabled={currentPage === totalPages}>
               Next
             </button>

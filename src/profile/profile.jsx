@@ -104,6 +104,7 @@ export function Profile({ username, onLogout }) {
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
   const handleNextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
   const handlePreviousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
@@ -115,6 +116,41 @@ export function Profile({ username, onLogout }) {
   const handleNotifPrev = () => {
     if (notifPage > 1) setNotifPage(notifPage - 1);
   };
+
+  // Helper function for condensed pagination with ellipsis
+  function getPageNumbers(currentPage, totalPages, maxPagesToShow = 5) {
+    const pages = [];
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      const half = Math.floor(maxPagesToShow / 2);
+      let start = Math.max(1, currentPage - half);
+      let end = Math.min(totalPages, currentPage + half);
+
+      if (currentPage <= half) {
+        end = maxPagesToShow;
+        start = 1;
+      } else if (currentPage + half >= totalPages) {
+        end = totalPages;
+        start = totalPages - maxPagesToShow + 1;
+      }
+
+      if (start > 1) {
+        pages.push(1);
+        if (start > 2) pages.push('...');
+      }
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  }
 
   return (
     <main>
@@ -144,7 +180,6 @@ export function Profile({ username, onLogout }) {
           🔔
         </button>
       )}
-
       <div id="left-column">
         {/* Notifications panel */}
         {showNotifications && (
@@ -186,7 +221,6 @@ export function Profile({ username, onLogout }) {
           </section>
         )}
       </div>
-
       <div id="right-column">
         <section id="profile-info">
           <h2>Profile Information</h2>
@@ -225,15 +259,19 @@ export function Profile({ username, onLogout }) {
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </button>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
+            {getPageNumbers(currentPage, totalPages, 3).map((page, idx) =>
+              page === '...' ? (
+                <span key={`ellipsis-${idx}`} className="ellipsis">...</span>
+              ) : (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={currentPage === page ? 'active' : ''}
+                >
+                  {page}
+                </button>
+              )
+            )}
             <button onClick={handleNextPage} disabled={currentPage === totalPages}>
               Next
             </button>

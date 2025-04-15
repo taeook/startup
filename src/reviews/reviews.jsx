@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar';
 import { Link } from 'react-router-dom';
-import CreatePost from './createPost/createPost'; // Adjust the path
+import CreatePost from './createPost/createPost'; // Adjust the path if needed
 import './reviews.css';
 
 export function Reviews({ username, authState }) {
@@ -44,18 +44,54 @@ export function Reviews({ username, authState }) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
-
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  // Helper function for pagination numbers with ellipsis
+  function getPageNumbers(currentPage, totalPages, maxPagesToShow = 5) {
+    const pages = [];
+    if (totalPages <= maxPagesToShow) {
+      // Show all pages
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      const half = Math.floor(maxPagesToShow / 2);
+      let start = Math.max(1, currentPage - half);
+      let end = Math.min(totalPages, currentPage + half);
+
+      if (currentPage <= half) {
+        end = maxPagesToShow;
+        start = 1;
+      } else if (currentPage + half >= totalPages) {
+        end = totalPages;
+        start = totalPages - maxPagesToShow + 1;
+      }
+
+      // Always show first page
+      if (start > 1) {
+        pages.push(1);
+        if (start > 2) pages.push('...');
+      }
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      // Always show last page
+      if (end < totalPages) {
+        if (end < totalPages - 1) pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  }
 
   return (
     <main className="container">
@@ -87,7 +123,7 @@ export function Reviews({ username, authState }) {
                   <p><strong>Author:</strong> {review.author}</p>
                   <p><strong>Created:</strong> {review.created}</p>
                   <p><strong>Category:</strong> {review.category}</p>
-                  <hr class="my-4 border-dark" />
+                  <hr className="my-4 border-dark" />
                 </div>
               ))
             ) : (
@@ -99,15 +135,19 @@ export function Reviews({ username, authState }) {
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </button>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
+            {getPageNumbers(currentPage, totalPages, 3).map((page, idx) =>
+              page === '...' ? (
+                <span key={`ellipsis-${idx}`} className="ellipsis">...</span>
+              ) : (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={currentPage === page ? 'active' : ''}
+                >
+                  {page}
+                </button>
+              )
+            )}
             <button onClick={handleNextPage} disabled={currentPage === totalPages}>
               Next
             </button>

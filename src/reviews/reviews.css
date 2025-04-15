@@ -121,6 +121,10 @@
   padding: 20px;
 }
 
+.ellipsis {
+  color: black;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .container {
