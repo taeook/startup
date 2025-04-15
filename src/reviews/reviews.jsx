@@ -113,12 +113,6 @@ export function Reviews({ username, authState }) {
             </button>
           </div>
         </section>
-        <section id="third-party-info" className="mt-4">
-          <h2>Additional Information</h2>
-          <div id="third-party-placeholder">
-            <p>Loading additional information from external sources...</p>
-          </div>
-        </section>
       </div>
     </main>
   );

@@ -98,12 +98,6 @@ function Games({ username, authState }) { // Ensure authState is a prop
             </button>
           </div>
         </section>
-        <section id="third-party-info" className="mt-4">
-          <h2>Additional Information</h2>
-          <div id="third-party-placeholder">
-            <p>Loading additional information about Games from external sources...</p>
-          </div>
-        </section>
       </div>
     </main>
   );
