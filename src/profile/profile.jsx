@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './profile.css';
 
 export function Profile({ username, onLogout }) {
@@ -7,7 +7,9 @@ export function Profile({ username, onLogout }) {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [notifications, setNotifications] = useState([]);
   const reviewsPerPage = 5;
+  const wsRef = useRef(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -46,30 +48,40 @@ export function Profile({ username, onLogout }) {
     fetchUserReviews();
   }, [username]);
 
-  // Calculate the reviews to display on the current page
+  // WebSocket connection for notifications
+  useEffect(() => {
+    // Use ws:// for local dev, wss:// for production with HTTPS
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    wsRef.current = new window.WebSocket(`${wsProtocol}://${window.location.host}`);
+
+    wsRef.current.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'new_post') {
+        setNotifications(prev => [
+          { text: `New post by ${message.author}: "${message.title}" in ${message.category} at ${message.created}` },
+          ...prev,
+        ]);
+      }
+    };
+
+    wsRef.current.onclose = () => {
+      // Optionally handle reconnect logic here
+    };
+
+    return () => {
+      wsRef.current && wsRef.current.close();
+    };
+  }, []);
+
+  // Pagination logic
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
-
-  // Calculate total pages
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
 
-  // Handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const handleNextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+  const handlePreviousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
     <main>
@@ -77,8 +89,14 @@ export function Profile({ username, onLogout }) {
         <section id="notifications">
           <h2>Real-time Notifications</h2>
           <div id="realtime-notifications">
+          {notifications.length === 0 ? (
             <p>Waiting for new notifications...</p>
-          </div>
+          ) : (
+            <ul className="notification-list">
+              {notifications.map((n, i) => <li key={i}>{n.text}</li>)}
+            </ul>
+          )}
+        </div>
         </section>
       </div>
       <div id="right-column">
@@ -105,7 +123,7 @@ export function Profile({ username, onLogout }) {
               <p>Loading your reviews...</p>
             ) : currentReviews.length > 0 ? (
               currentReviews.map((review) => (
-                <div key={review.id}>
+                <div key={review._id}>
                   <h3>{review.title}</h3>
                   <p>{review.content}</p>
                 </div>

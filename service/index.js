@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const { MongoClient } = require('mongodb');
 const config = require('./dbConfig.json');
+const http = require('http');
+const WebSocket = require('ws');
 
 const app = express();
 const authCookieName = 'token';
@@ -18,6 +20,7 @@ app.use('/api', apiRouter);
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
+
 let usersCollection;
 let postsCollection;
 
@@ -27,28 +30,49 @@ async function connectToDB() {
     await client.connect();
     const db = client.db('startup');
     usersCollection = db.collection('users');
-    postsCollection = db.collection('posts'); // New collection for posts
+    postsCollection = db.collection('posts');
     console.log('Connected to MongoDB');
   } catch (err) {
     console.error(err);
   }
 }
-
 connectToDB();
+
+// --- WebSocket Setup ---
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+let clients = [];
+
+wss.on('connection', (ws) => {
+  clients.push(ws);
+
+  ws.on('close', () => {
+    clients = clients.filter(client => client !== ws);
+  });
+});
+
+function broadcastNotification(message) {
+  clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(message));
+    }
+  });
+}
+// --- End WebSocket Setup ---
 
 // Create a new user
 apiRouter.post('/auth/create', async (req, res) => {
   if (await findUser('username', req.body.username)) {
     res.status(409).send({ msg: 'Existing user' });
-  } 
+    return;
+  }
   if (await findUser('email', req.body.email)) {
     res.status(409).send({ msg: 'Existing email' });
+    return;
   }
-  else {
-    const user = await createUser(req.body.username, req.body.email, req.body.password);
-    setAuthCookie(res, user.token);
-    res.send({ username: user.username });
-  }
+  const user = await createUser(req.body.username, req.body.email, req.body.password);
+  setAuthCookie(res, user.token);
+  res.send({ username: user.username });
 });
 
 // Login an existing user
@@ -104,6 +128,7 @@ apiRouter.get('/user-reviews', verifyAuth, async (req, res) => {
   }
 });
 
+// Create a new post and broadcast notification
 apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
@@ -112,9 +137,19 @@ apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
       content: req.body.content,
       author: user.username,
       created: new Date().toLocaleString(),
-      category: req.body.category, // Add categories
+      category: req.body.category,
     };
     await postsCollection.insertOne(post);
+
+    // Broadcast notification to all clients
+    broadcastNotification({
+      type: 'new_post',
+      title: post.title,
+      author: post.author,
+      created: post.created,
+      category: post.category,
+    });
+
     res.status(201).send({ msg: 'Post created successfully' });
   } else {
     res.status(401).send({ msg: 'Unauthorized' });
@@ -173,7 +208,8 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
+// Start HTTP and WebSocket server
+server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
