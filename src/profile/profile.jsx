@@ -7,8 +7,12 @@ export function Profile({ username, onLogout }) {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Notifications
   const [notifications, setNotifications] = useState([]);
-  const reviewsPerPage = 5;
+  const [notifPage, setNotifPage] = useState(1);
+  const [notifTotalPages, setNotifTotalPages] = useState(1);
+  const notifPerPage = 5;
   const wsRef = useRef(null);
 
   useEffect(() => {
@@ -48,19 +52,30 @@ export function Profile({ username, onLogout }) {
     fetchUserReviews();
   }, [username]);
 
+  // Fetch notifications with pagination
+  const fetchNotifications = async (page = 1) => {
+    const res = await fetch(`/api/notifications?page=${page}&limit=${notifPerPage}`);
+    const data = await res.json();
+    setNotifications(data.notifications);
+    setNotifTotalPages(data.totalPages);
+    setNotifPage(data.page);
+  };
+
+  useEffect(() => {
+    fetchNotifications(notifPage);
+    // eslint-disable-next-line
+  }, [notifPage]);
+
   // WebSocket connection for notifications
   useEffect(() => {
-    // Use ws:// for local dev, wss:// for production with HTTPS
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     wsRef.current = new window.WebSocket(`${wsProtocol}://${window.location.host}`);
 
     wsRef.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
       if (message.type === 'new_post') {
-        setNotifications(prev => [
-          { text: `New post by ${message.author}: "${message.title}" in ${message.category} at ${message.created}` },
-          ...prev,
-        ]);
+        // Prepend new notification and keep pagination
+        setNotifications(prev => [message, ...prev.slice(0, notifPerPage - 1)]);
       }
     };
 
@@ -71,9 +86,11 @@ export function Profile({ username, onLogout }) {
     return () => {
       wsRef.current && wsRef.current.close();
     };
+    // eslint-disable-next-line
   }, []);
 
-  // Pagination logic
+  // Reviews pagination logic
+  const reviewsPerPage = 5;
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
@@ -83,20 +100,40 @@ export function Profile({ username, onLogout }) {
   const handleNextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
   const handlePreviousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
+  // Notifications pagination
+  const handleNotifNext = () => {
+    if (notifPage < notifTotalPages) setNotifPage(notifPage + 1);
+  };
+  const handleNotifPrev = () => {
+    if (notifPage > 1) setNotifPage(notifPage - 1);
+  };
+
   return (
     <main>
       <div id="left-column">
         <section id="notifications">
           <h2>Real-time Notifications</h2>
           <div id="realtime-notifications">
-          {notifications.length === 0 ? (
-            <p>Waiting for new notifications...</p>
-          ) : (
-            <ul className="notification-list">
-              {notifications.map((n, i) => <li key={i}>{n.text}</li>)}
-            </ul>
-          )}
-        </div>
+            {notifications.length === 0 ? (
+              <p>Waiting for new notifications...</p>
+            ) : (
+              <ul className="notification-list">
+                {notifications.map((n, i) => (
+                  <li key={n._id || i}>
+                    {/* If you have a post page, link to it: */}
+                    {/* <a href={`/post/${n.postId}`}>{`New post by ${n.author}: "${n.title}" in ${n.category} at ${n.created}`}</a> */}
+                    {`New post by ${n.author}: "${n.title}" in ${n.category} at ${n.created}`}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {/* Pagination Controls for notifications */}
+            <div className="pagination">
+              <button onClick={handleNotifPrev} disabled={notifPage === 1}>Previous</button>
+              <span className="pagination-info">Page {notifPage} of {notifTotalPages}</span>
+              <button onClick={handleNotifNext} disabled={notifPage === notifTotalPages}>Next</button>
+            </div>
+          </div>
         </section>
       </div>
       <div id="right-column">

@@ -23,6 +23,7 @@ const client = new MongoClient(url);
 
 let usersCollection;
 let postsCollection;
+let notificationsCollection; // NEW
 
 // Connect to MongoDB
 async function connectToDB() {
@@ -31,6 +32,7 @@ async function connectToDB() {
     const db = client.db('startup');
     usersCollection = db.collection('users');
     postsCollection = db.collection('posts');
+    notificationsCollection = db.collection('notifications'); // NEW
     console.log('Connected to MongoDB');
   } catch (err) {
     console.error(err);
@@ -42,15 +44,12 @@ connectToDB();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 let clients = [];
-
 wss.on('connection', (ws) => {
   clients.push(ws);
-
   ws.on('close', () => {
     clients = clients.filter(client => client !== ws);
   });
 });
-
 function broadcastNotification(message) {
   clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
@@ -128,7 +127,7 @@ apiRouter.get('/user-reviews', verifyAuth, async (req, res) => {
   }
 });
 
-// Create a new post and broadcast notification
+// Create a new post and broadcast/store notification
 apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
@@ -139,21 +138,51 @@ apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
       created: new Date().toLocaleString(),
       category: req.body.category,
     };
-    await postsCollection.insertOne(post);
+    const result = await postsCollection.insertOne(post);
 
-    // Broadcast notification to all clients
-    broadcastNotification({
+    // Store notification in DB
+    const notification = {
       type: 'new_post',
       title: post.title,
       author: post.author,
       created: post.created,
       category: post.category,
-    });
+      postId: result.insertedId.toString(),
+      timestamp: new Date(),
+    };
+    await notificationsCollection.insertOne(notification);
+
+    // Broadcast notification to all clients
+    broadcastNotification(notification);
 
     res.status(201).send({ msg: 'Post created successfully' });
   } else {
     res.status(401).send({ msg: 'Unauthorized' });
   }
+});
+
+// Paginated notifications endpoint
+// GET /api/notifications?page=1&limit=10
+apiRouter.get('/notifications', verifyAuth, async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const notifications = await notificationsCollection
+    .find({})
+    .sort({ timestamp: -1 }) // newest first
+    .skip(skip)
+    .limit(limit)
+    .toArray();
+
+  const total = await notificationsCollection.countDocuments();
+
+  res.send({
+    notifications,
+    total,
+    page,
+    totalPages: Math.ceil(total / limit),
+  });
 });
 
 apiRouter.get('/posts/category/:category', async (req, res) => {
