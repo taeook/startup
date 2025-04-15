@@ -15,6 +15,7 @@ export function Profile({ username, onLogout }) {
   const notifPerPage = 5;
   const wsRef = useRef(null);
 
+  // Fetch profile and reviews
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -52,30 +53,41 @@ export function Profile({ username, onLogout }) {
     fetchUserReviews();
   }, [username]);
 
-  // Fetch notifications with pagination
-  const fetchNotifications = async (page = 1) => {
-    const res = await fetch(`/api/notifications?page=${page}&limit=${notifPerPage}`);
-    const data = await res.json();
-    setNotifications(data.notifications);
-    setNotifTotalPages(data.totalPages);
-    setNotifPage(data.page);
-  };
+  // Fetch notifications with pagination (no need to filter in frontend anymore)
+const fetchNotifications = async (page = 1) => {
+  const res = await fetch(`/api/notifications?page=${page}&limit=${notifPerPage}`);
+  const data = await res.json();
+  setNotifications(data.notifications);
+  setNotifTotalPages(data.totalPages);
+  setNotifPage(data.page);
+};
 
+  // Fetch notifications when page or profileData changes
   useEffect(() => {
-    fetchNotifications(notifPage);
+    if (profileData && profileData.name) {
+      fetchNotifications(notifPage, profileData.name);
+    }
     // eslint-disable-next-line
-  }, [notifPage]);
+  }, [notifPage, profileData]);
 
-  // WebSocket connection for notifications
+  // WebSocket connection for notifications, filter out own posts
   useEffect(() => {
+    if (!profileData || !profileData.name) return;
+
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     wsRef.current = new window.WebSocket(`${wsProtocol}://${window.location.host}`);
 
     wsRef.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      if (message.type === 'new_post') {
-        // Prepend new notification and keep pagination
-        setNotifications(prev => [message, ...prev.slice(0, notifPerPage - 1)]);
+      if (
+        message.type === 'new_post' &&
+        message.author !== profileData.name
+      ) {
+        setNotifications(prev => {
+          const updated = [message, ...prev];
+          // Only slice if we exceed notifPerPage
+          return updated.length > notifPerPage ? updated.slice(0, notifPerPage) : updated;
+        });
       }
     };
 
@@ -86,8 +98,8 @@ export function Profile({ username, onLogout }) {
     return () => {
       wsRef.current && wsRef.current.close();
     };
-    // eslint-disable-next-line
-  }, []);
+    // profileData is a dep!
+  }, [profileData]);
 
   // Reviews pagination logic
   const reviewsPerPage = 5;
@@ -114,19 +126,13 @@ export function Profile({ username, onLogout }) {
         <section id="notifications">
           <h2>Real-time Notifications</h2>
           <div id="realtime-notifications">
-            {notifications.length === 0 ? (
-              <p>Waiting for new notifications...</p>
-            ) : (
               <ul className="notification-list">
-                {notifications.map((n, i) => (
-                  <li key={n._id || i}>
-                    {/* If you have a post page, link to it: */}
-                    {/* <a href={`/post/${n.postId}`}>{`New post by ${n.author}: "${n.title}" in ${n.category} at ${n.created}`}</a> */}
-                    {`New post by ${n.author}: "${n.title}" in ${n.category} at ${n.created}`}
-                  </li>
-                ))}
-              </ul>
-            )}
+              {notifications.map((n, i) => (
+                <li key={n._id || i}>
+                  {`New post by ${n.author}: "${n.title}" in ${n.category} at ${n.created}`}
+                </li>
+              ))}
+            </ul>
             {/* Pagination Controls for notifications */}
             <div className="pagination">
               <button onClick={handleNotifPrev} disabled={notifPage === 1}>Previous</button>

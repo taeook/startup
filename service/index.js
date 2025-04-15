@@ -161,28 +161,41 @@ apiRouter.post('/posts/create', verifyAuth, async (req, res) => {
   }
 });
 
-// Paginated notifications endpoint
-// GET /api/notifications?page=1&limit=10
+// Paginated notifications endpoint (filter out current user's notifications)
 apiRouter.get('/notifications', verifyAuth, async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const notifications = await notificationsCollection
-    .find({})
-    .sort({ timestamp: -1 }) // newest first
-    .skip(skip)
-    .limit(limit)
-    .toArray();
+  // Find the current user
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!user) {
+    return res.status(401).send({ msg: 'Unauthorized' });
+  }
 
-  const total = await notificationsCollection.countDocuments();
+  // Filter out notifications from the current user
+  const query = { author: { $ne: user.username } };
 
-  res.send({
-    notifications,
-    total,
-    page,
-    totalPages: Math.ceil(total / limit),
-  });
+  try {
+    const notifications = await notificationsCollection
+      .find(query)
+      .sort({ timestamp: -1 }) // newest first
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await notificationsCollection.countDocuments(query);
+
+    res.send({
+      notifications,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).send({ msg: 'Error fetching notifications' });
+  }
 });
 
 apiRouter.get('/posts/category/:category', async (req, res) => {
